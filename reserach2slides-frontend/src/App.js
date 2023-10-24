@@ -21,14 +21,39 @@ function App() {
       const response = await axios.post("http://localhost:8080/api/convert", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
-        }
+        },
+        responseType: 'arraybuffer'  // <-- Add this line
       });
   
       if (response.status === 200) {
         const data = response.data;
-        // Handle the received PowerPoint data (e.g., download it)
+        console.log(data);
+        
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'converted_presentation.pptx');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        toast({
+          title: "Conversion Successful",
+          description: "Your file has been converted and is ready for download.",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+
       } else {
-        // Handle the error
+        toast({
+          title: "Conversion Failed",
+          description: "There was an issue converting your file. Please try again.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     } catch (error) {
       console.error("Error during conversion:", error);
