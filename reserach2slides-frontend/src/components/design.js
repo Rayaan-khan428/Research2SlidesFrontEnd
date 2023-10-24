@@ -40,14 +40,14 @@ function DesignRadio(props) {
 
 function DesignSelector({ design, setDesign, setUploadedFile }) {
   const designs = [
-    { name: 'Design 1', src: '/design-covers/design1.png', description: 'Colorful' },
-    { name: 'Design 2', src: '/design-covers/design2.png', description: 'Minimal' },
-    { name: 'Design 3', src: '/design-covers/design3.png', description: 'Galaxy' },
-    { name: 'Design 4', src: '/design-covers/design4.png', description: 'Geometric' },
-    { name: 'Design 5', src: '/design-covers/design5.png', description: 'Pink' },
-    { name: 'Design 6', src: '/design-covers/design6.png', description: 'Minimal' },
-    { name: 'Design 7', src: '/design-covers/design7.png', description: 'Nature' },
-    { name: 'Design 8', src: '/design-covers/design8.png', description: 'Abstract' },  ];
+    { name: 'Design1', src: '/design-covers/design1.png', description: 'Colorful' },
+    { name: 'Design2', src: '/design-covers/design2.png', description: 'Minimal' },
+    { name: 'Design3', src: '/design-covers/design3.png', description: 'Galaxy' },
+    { name: 'Design4', src: '/design-covers/design4.png', description: 'Geometric' },
+    { name: 'Design5', src: '/design-covers/design5.png', description: 'Pink' },
+    { name: 'Design6', src: '/design-covers/design6.png', description: 'Minimal' },
+    { name: 'Design7', src: '/design-covers/design7.png', description: 'Nature' },
+    { name: 'Design8', src: '/design-covers/design8.png', description: 'Abstract' },  ];
 
     const fileInputRef = useRef(null); // <-- reference to the file input
 
