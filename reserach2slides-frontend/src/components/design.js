@@ -3,7 +3,7 @@ import { ArrowUpIcon } from '@chakra-ui/icons';
 import { useRef } from "react";
 
 // Custom radio button to represent each design
-function DesignRadio(props: UseRadioProps) {
+function DesignRadio(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
   
     const input = getInputProps();
@@ -38,7 +38,7 @@ function DesignRadio(props: UseRadioProps) {
 }
 
 
-function DesignSelector({ design, setDesign }) {
+function DesignSelector({ design, setDesign, setUploadedFile }) {
   const designs = [
     { name: 'Design 1', src: '/design-covers/design1.png', description: 'Colorful' },
     { name: 'Design 2', src: '/design-covers/design2.png', description: 'Minimal' },
@@ -60,7 +60,7 @@ function DesignSelector({ design, setDesign }) {
       const file = event.target.files[0];
       if (file) {
         console.log("Selected file:", file.name);
-        // TODO: Process the file or do something with it
+        setUploadedFile(file); // Set the uploaded file to the state
       }
     };
 
