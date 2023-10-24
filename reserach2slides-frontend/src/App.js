@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Flex, Heading, useToast, Image } from "@chakra-ui/react";
+import { useState } from "react";
+import { ChakraProvider, CSSReset } from "@chakra-ui/react";
+import DesignSelector from "./components/design";
+import ConvertButton from "./components/convert";
 
 function App() {
+  const [design, setDesign] = useState(null);
+  const toast = useToast();
+
+  const handleConversion = () => {
+    // same logic as before
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <CSSReset />
+      <Flex direction="column" align="center" m={4}>
+        <Flex align="center" my={5}>
+          <Image src="./logo.png" alt="Research2Slides Logo" boxSize="70px" mr={3} />
+          <Heading>Research2Slides</Heading>
+        </Flex>
+        <DesignSelector design={design} setDesign={setDesign} />
+        <ConvertButton onConvert={handleConversion} />
+      </Flex>
+    </ChakraProvider>
   );
 }
 
