@@ -11,13 +11,21 @@ function App() {
   const toast = useToast();
   const [uploadedFile, setUploadedFile] = useState(null);
 
-
   const handleConversion = async () => {
     const formData = new FormData();
     formData.append("design", design);
     formData.append("pdfFile", uploadedFile); // Assuming you have the uploaded file stored in a state
   
     try {
+      // Notify user that the request is being sent
+      toast({
+        title: "Sending Request",
+        description: "Your conversion request is being sent. Please wait...",
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+      });
+
       const response = await axios.post("https://research2slides-4d84a4b3a938.herokuapp.com/api/convert", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
