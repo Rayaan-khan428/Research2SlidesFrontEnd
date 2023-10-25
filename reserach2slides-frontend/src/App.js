@@ -18,7 +18,7 @@ function App() {
     formData.append("pdfFile", uploadedFile); // Assuming you have the uploaded file stored in a state
   
     try {
-      const response = await axios.post("http://localhost:8080/api/convert", formData, {
+      const response = await axios.post("https://research2slides-4d84a4b3a938.herokuapp.com/api/convert", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
