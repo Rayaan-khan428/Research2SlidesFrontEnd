@@ -14,7 +14,7 @@ function App() {
   const handleConversion = async () => {
     const formData = new FormData();
     formData.append("design", design);
-    formData.append("pdfFile", uploadedFile); // Assuming you have the uploaded file stored in a state
+    formData.append("pdfFile", uploadedFile);
   
     try {
       // Notify user that the request is being sent
@@ -25,48 +25,73 @@ function App() {
         duration: 5000,
         isClosable: true,
       });
-
+  
       const response = await axios.post("https://research2slides-4d84a4b3a938.herokuapp.com/api/convert", formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
-        responseType: 'arraybuffer'  // <-- Add this line
+        }
       });
   
       if (response.status === 200) {
-        const data = response.data;
-        console.log(data);
-        
-        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'converted_presentation.pptx');
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        toast({
-          title: "Conversion Successful",
-          description: "Your file has been converted and is ready for download.",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-
+        const jobId = response.data.jobId; // Assuming the backend returns a jobId
+        checkConversionStatus(jobId); // Start polling for status
       } else {
-        toast({
-          title: "Conversion Failed",
-          description: "There was an issue converting your file. Please try again.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        showErrorToast();
       }
     } catch (error) {
       console.error("Error during conversion:", error);
+      showErrorToast();
     }
   };
+  
+  const checkConversionStatus = async (jobId) => {
+    try {
+      const response = await axios.get(`https://research2slides-4d84a4b3a938.herokuapp.com/api/convert/status/${jobId}`);
+  
+      if (response.status === 200) {
+        if (response.data.status === "completed") {
+          // Handle successful conversion and download
+          const blob = new Blob([response.data.data], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute('download', 'converted_presentation.pptx');
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+  
+          toast({
+            title: "Conversion Successful",
+            description: "Your file has been converted and is ready for download.",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+        } else if (response.data.status === "processing") {
+          // If still processing, wait and check again
+          setTimeout(() => checkConversionStatus(jobId), 5000);
+        } else {
+          showErrorToast();
+        }
+      } else {
+        showErrorToast();
+      }
+    } catch (error) {
+      console.error("Error checking conversion status:", error);
+      showErrorToast();
+    }
+  };
+  
+  const showErrorToast = () => {
+    toast({
+      title: "Conversion Failed",
+      description: "There was an issue converting your file. Please try again.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+  
 
   return (
     <ChakraProvider>
