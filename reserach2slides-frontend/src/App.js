@@ -24,6 +24,7 @@ function App() {
         status: "info",
         duration: 5000,
         isClosable: true,
+        position: "top-right",
       });
 
       const response = await axios.post("https://research2slides-4d84a4b3a938.herokuapp.com/api/convert", formData, {
@@ -72,17 +73,19 @@ function App() {
 
   return (
     <ChakraProvider>
-      <CSSReset />
-      <Flex direction="column" align="center" m={4}>
-        <Flex align="center" my={5}>
-          <Image src="./logo.png" alt="Research2Slides Logo" boxSize="70px" mr={3} />
-          <Heading>Research2Slides</Heading>
+        <CSSReset />
+        <Flex direction="column" align="center" m={[2, 4, 6, 8]}> {/* <-- Responsive margin */}
+            <Flex align="center" my={[3, 4, 5, 6]} direction={["column", "row", "row", "row"]}> {/* <-- Responsive Flex direction and margin */}
+                <Image src="./logo.png" alt="Research2Slides Logo" boxSize={["50px", "60px", "70px", "80px"]} mb={["2", "0", "0", "0"]} /> {/* <-- Responsive image size and margin-bottom */}
+                <Heading fontSize={["xl", "2xl", "3xl", "4xl"]} ml={[0, 3, 4, 5]}> {/* <-- Responsive font size and margin-left */}
+                    Research2Slides
+                </Heading>
+            </Flex>
+            <DesignSelector design={design} setDesign={setDesign} setUploadedFile={setUploadedFile} />
+            <ConvertButton onConvert={handleConversion} />
         </Flex>
-        <DesignSelector design={design} setDesign={setDesign} setUploadedFile={setUploadedFile} />
-        <ConvertButton onConvert={handleConversion} />
-      </Flex>
     </ChakraProvider>
-  );
+);
 }
 
 export default App;

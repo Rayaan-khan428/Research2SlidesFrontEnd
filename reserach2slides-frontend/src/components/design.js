@@ -83,10 +83,10 @@ function DesignSelector({ design, setDesign, setUploadedFile }) {
             Upload
           </Button>
         </Flex>
-        <Text fontSize="4xl" mb={4} textAlign="center">
+        <Text fontSize={["2xl", "3xl", "4xl"]} mb={4} textAlign="center">  {/* <-- Responsive font size */}
           Select Design:
         </Text>
-        <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+        <Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)", "repeat(4, 1fr)"]} gap={6}>  {/* <-- Responsive columns */}
           {designs.map((designData) => (
             <DesignRadio
               key={designData.name}
