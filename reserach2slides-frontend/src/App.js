@@ -52,6 +52,7 @@ function App() {
           status: "success",
           duration: 5000,
           isClosable: true,
+          position: "top-right",
         });
 
       } else {
@@ -61,6 +62,7 @@ function App() {
           status: "error",
           duration: 5000,
           isClosable: true,
+          position: "top-right",
         });
       }
     } catch (error) {
